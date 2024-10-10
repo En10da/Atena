@@ -1,4 +1,12 @@
+"""
+Algoritmo do gerador de horários do Projeto Atena
+"""
+
+# Ao fazer o ``git clone``, faça ``git pull`` antes de fazer qualquer coisa para obter as alterações da núvem!
+# Depois, quando terminar, faça ``git add .`` na pasta onde se alterou algo (ou na pasta do repositório), ``git commit`` e depois ``git push``
+
 # OBS: Lembrar de deletar __pycache__ antes de fazer ``git push``!
+# OBS: Lembre de deixar o código legível, mas tabém formal!
 
 class gerhor:
   """
