@@ -1,5 +1,11 @@
 """
 Algoritmo do gerador de horários do Projeto Atena
+
+Sumário Estendido
+-----------------
+Versão Alpha - Ainda nas implementações iniciais!
+
+Inclui: Sistema básico de input dos dados e organização dos mesmos, ainda sem o algoritmo principal.
 """
 
 # Ao fazer o ``git clone``, faça ``git pull`` antes de fazer qualquer coisa para obter as alterações da núvem!
@@ -27,13 +33,13 @@ class gerhor:
     """
 
     # Input dos nomes das turmas
-    n_ts : list[str] = input('Liste os nomes das turmas (Use underlines, não espaços):\n').strip().split()
+    n_ts : list[str] = input('Liste os nomes das turmas (Use espaços para separar as turmas, não vírgulas):\n').strip().split()
 
     # Inicialização da lista dos horários
-    for n_t in n_ts: self.h[n_p] = list[list[str]]
+    for n_t in n_ts: self.h[n_t] = [list() for _ in range(7)]
 
     # Input dos nomes dos professores
-    n_ps : list[str] = input('Liste os nomes dos(as) professores(as) (Use underlines, não espaços):\n').strip().split()
+    n_ps : list[str] = input('Liste os nomes dos(as) professores(as) (Use espaços para separar os professores, não vírgulas):\n').strip().split()
 
     # Inicialização das listas dos professores + Input dos dados dos professores
     for n_p in n_ps:
@@ -43,9 +49,7 @@ class gerhor:
         print(f'\nResponda sobre o(a) professor(a) {n_p}:')
         
         # Input dos nomes das turmas e disciplinas
-        self.p[n_p]['turmas & disc.'] =
-          list(map( lambda x : tuple(x.split('_')),
-               input('Turmas & disciplinas (separado por um _. Ex.: 1ºA_Química) que leciona:\n').strip().split() ))
+        self.p[n_p]['turmas & disc.'] = list(map( lambda x : tuple(x.split('_')), input('Turmas & disciplinas (separadas por um _. Ex.: 1ºA_Química 3ºC_Física) que leciona (Use espaços para separar as turmas & disciplinas, não vírgulas):\n').strip().split() ))
 
         # Input das horas de trabalho        
         self.p[n_p]['horas semanais'] = float(input('Horas de trabalho por semana:\n').strip())
@@ -53,6 +57,17 @@ class gerhor:
     ...
     # Dados de debug
     print(self.p)
+
+  def allocate_h(self) -> None:
+    for p, d in self.p:
+      tnd : list[tuple[str, str]] = d['turmas & disc.']
+      hs : float = d['horas semanais']
+      for tur, dis in tnd:
+        # ponderar horas
+        ...
+        for day in range(7):
+          # alocar dias em self.h[tur][day]
+          ...
 
   def main(self) -> None:
     """
