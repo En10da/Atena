@@ -81,13 +81,22 @@ class gerhor:
       # Caso esteja disponível
       return True
     
-  def dalloc(dia: int, pro : str, dis : str, tur : str, per : int) -> None:
+    def dalloc(dia: int, pro : str, dis : str, tur : str, per : int) -> None:
       """
       Fazer a alocação
       """
       
       # Alocar o período no dia e turma para o professor
       self.h[tur][dia][per] = pro+dis
+
+    # ATENÇÃO ! OBS:
+    #
+    #  O algoritmo a seguir NÃO FUNCIONA para todos os casos e NÃO ESTÁ PRONTO
+    #  Esta primeira versão irá somente testar se dá pra fazer uma verificação se um horário já foi alocado e alocar se sim
+    #  Caso não dê para encaixar de primeira, o algoritmo teria que refazer tudo e tentar outra possibilidade
+    #  Existem inúmeras formas de fazer um algoritmo assim
+    #  Isso é só uma ideia do que virá a ser o protótipo de uma parte do que poderia ser um BackTracking
+    #  Olha o quão no início isso tá!
 
     # Para cada professor, fazer alocação
     for p, d in self.p:
