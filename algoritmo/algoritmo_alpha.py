@@ -14,6 +14,13 @@ Inclui: Sistema básico de input dos dados e organização dos mesmos, ainda sem
 # OBS: Lembrar de deletar __pycache__ antes de fazer ``git push``!
 # OBS: Lembre de deixar o código legível, mas tabém formal!
 
+# Notas extras:
+# Pelo amor de Deus, comentar linhas para não gerar confusão mais que horários.
+# Lembre-se de que certos comentários são piores do que o código
+# Se tiver qualquer coisa que não é o que parece ou que não está funcionando ainda ou é só um teste ou conceito, sinaliza isso.
+# Lembre-se de que este repositório é público e os surtos destes comentários também.
+# Lembrar de usar o git direito e combinar com os colaboradores para não haver conflitos no meio dos pushs.
+
 class gerhor:
   """
   Classe do Gerador de Horários
