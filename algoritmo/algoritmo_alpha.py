@@ -32,11 +32,14 @@ class gerhor:
     Gravar dados de entrada
     """
 
+    # Input da quantidade de períodos diários
+    p = int(input('Qual a quantidade de períodos por dia?\n').strip())
+
     # Input dos nomes das turmas
     n_ts : list[str] = input('Liste os nomes das turmas (Use espaços para separar as turmas, não vírgulas):\n').strip().split()
 
     # Inicialização da lista dos horários
-    for n_t in n_ts: self.h[n_t] = [list() for _ in range(7)]
+    for n_t in n_ts: self.h[n_t] = [[list() for _ in range(p)] for _ in range(5)]
 
     # Input dos nomes dos professores
     n_ps : list[str] = input('Liste os nomes dos(as) professores(as) (Use espaços para separar os professores, não vírgulas):\n').strip().split()
@@ -59,13 +62,32 @@ class gerhor:
     print(self.p)
 
   def allocate_h(self) -> None:
+    """
+    Alocar horários
+    """
+
+    def valloc(dia : int, pro : str, tur : str, per : int)
+      
+      for t, t_h in self.h:
+        if h_t[dia][per] and h_t[dia][per].split('_')[0] = pro: return False
+    
+      if self.h[tur][dia][per]: return False
+
+      return True
+    
+  def dalloc(dia: int, pro : str, dis : str, tur : str, per : int):
+      
+      self.h[tur][per] = pro+dis
+
+    # Para cada professor, tentar alocação
     for p, d in self.p:
       tnd : list[tuple[str, str]] = d['turmas & disc.']
       hs : float = d['horas semanais']
+
       for tur, dis in tnd:
         # ponderar horas
         ...
-        for day in range(7):
+        for day in range(5):
           # alocar dias em self.h[tur][day]
           ...
 
