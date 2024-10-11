@@ -66,7 +66,7 @@ class gerhor:
     Alocar horários
     """
 
-    def valloc(dia : int, pro : str, tur : str, per : int)
+    def valloc(dia : int, pro : str, tur : str, per : int) -> bool:
       
       for t, t_h in self.h:
         if h_t[dia][per] and h_t[dia][per].split('_')[0] = pro: return False
@@ -75,7 +75,7 @@ class gerhor:
 
       return True
     
-  def dalloc(dia: int, pro : str, dis : str, tur : str, per : int):
+  def dalloc(dia: int, pro : str, dis : str, tur : str, per : int) -> None:
       
       self.h[tur][per] = pro+dis
 
