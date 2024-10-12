@@ -75,17 +75,36 @@ class gerhor:
     Alocar horários
     """
 
-    def valloc(dia : int, pro : str, tur : str, per : int) -> bool:
+    def ch_p(pro : str) -> int:
+      """
+      Contar quantos períodos o professor leciona
+      """
+
+      c : int = 0
+
+      # Para cada turma, para cada dia e para cada período
+      for tur in self.t.values():
+        for dia in tur:
+          for per in dia:
+            # Contar quantos são do professor
+            if per and per.split('_')[0] == pro: c += 1
+
+      return c
+
+  def valloc(dia : int, pro : str, tur : str, per : int, h_s : int) -> bool:
       """
       Verificar se a alocação é possível
       """
+
+      # Verificar se o horário foi alocado
+      if self.h[tur][dia][per]: return False
+
+      # Verificar se o professor já excedeu a quantidade de períodos semanais
+      if ch_p(pro) >= h_s: return False
       
       # Verificar se o professor dá aula em outra turma
       for t, h_t in self.h.items():
         if h_t[dia][per] and h_t[dia][per].split('_')[0] == pro: return False
-    
-      # Verificar se o horário foi alocado
-      if self.h[tur][dia][per]: return False
 
       # Caso esteja disponível
       return True
@@ -123,7 +142,7 @@ class gerhor:
           for per in range(len(tur)):
           
             # Alocando se der
-            if valloc(dia, p, tur, per): dalloc(dia, p, dis, tur, per)
+            if valloc(dia, p, tur, per, hs): dalloc(dia, p, dis, tur, per)
 
     ...
     # Dados de debug
