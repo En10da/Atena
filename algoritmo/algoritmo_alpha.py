@@ -21,6 +21,8 @@ Inclui: Sistema básico de input dos dados e organização dos mesmos, ainda sem
 # Lembre-se de que este repositório é público e os surtos destes comentários também.
 # Lembrar de usar o git direito e combinar com os colaboradores para não haver conflitos no meio dos pushs.
 
+import numpy as np
+
 class gerhor:
   """
   Classe do Gerador de Horários
@@ -61,8 +63,8 @@ class gerhor:
         # Input dos nomes das turmas e disciplinas
         self.p[n_p]['turmas & disc.'] = list(map( lambda x : tuple(x.split('_')), input('Turmas & disciplinas (separadas por um _. Ex.: 1ºA_Química 3ºC_Física) que leciona (Use espaços para separar as turmas & disciplinas, não vírgulas):\n').strip().split() ))
 
-        # Input das horas de trabalho        
-        self.p[n_p]['horas semanais'] = float(input('Horas de trabalho por semana:\n').strip())
+        # Input da quantidade de períodos de trabalho        
+        self.p[n_p]['horas semanais'] = float(input('Quantidade de períodos de trabalho por semana:\n').strip())
 
     ...
     # Dados de debug
@@ -79,8 +81,8 @@ class gerhor:
       """
       
       # Verificar se o professor dá aula em outra turma
-      for t, t_h in self.h:
-        if h_t[dia][per] and h_t[dia][per].split('_')[0] = pro: return False
+      for t, h_t in self.h.items():
+        if h_t[dia][per] and h_t[dia][per].split('_')[0] == pro: return False
     
       # Verificar se o horário foi alocado
       if self.h[tur][dia][per]: return False
@@ -94,7 +96,7 @@ class gerhor:
       """
       
       # Alocar o período no dia e turma para o professor
-      self.h[tur][dia][per] = pro+dis
+      self.h[tur][dia][per] = pro+'_'+dis
 
     # ATENÇÃO ! OBS:
     #
@@ -106,7 +108,7 @@ class gerhor:
     #  Olha o quão no início isso tá!
 
     # Para cada professor, fazer alocação
-    for p, d in self.p:
+    for p, d in self.p.items():
       tnd : list[tuple[str, str]] = d['turmas & disc.']
       hs : float = d['horas semanais']
 
@@ -115,10 +117,19 @@ class gerhor:
         ...
 
         # Para cada dia
-        for day in range(5):
+        for dia in range(5):
 
-          # verificar valloc(dia, p, dis, tur, per) alocar dias com dalloc(dia, p, dis, tur, per) e definir ``per``
-          ...
+          # Para cada período
+          for per in range(len(tur)):
+          
+            # Alocando se der
+            if valloc(dia, p, tur, per): dalloc(dia, p, dis, tur, per)
+
+    ...
+    # Dados de debug
+    for t, h_t in self.h.items():
+        print(f'\n{t}')
+        print(h_t)
 
   def main(self) -> None:
     """
@@ -127,6 +138,7 @@ class gerhor:
 
     # Obtendo os dados da entrada padrão
     self.get_input()
+    self.allocate_h()
     ...
     
 
