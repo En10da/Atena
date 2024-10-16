@@ -170,6 +170,8 @@ class gerhor:
       # Se der pra alocar, alocar
       t[tur][dia][per] = pro+'_'+dis
 
+      r = verrors(t), t
+
       # Para cada professor e disciplina
       for npro, npro_d in self.p.items():
         for ndis in npro_d['turmas & disc.']:
@@ -184,21 +186,22 @@ class gerhor:
 
       return r
 
-    # ATENÇÃO ! OBS:
-    #
-    #  O algoritmo a seguir NÃO FUNCIONA para todos os casos e NÃO ESTÁ PRONTO
-    #  Esta primeira versão irá somente testar se dá pra fazer uma verificação se um horário já foi alocado e alocar se sim
-    #  Caso não dê para encaixar de primeira, o algoritmo teria que refazer algo e tentar outra possibilidade
-    #  Existem inúmeras formas de fazer um algoritmo assim
-    #  Isso é só uma ideia do que virá a ser o protótipo de uma parte do que poderia ser um BackTracking
-    #  Olha o quão no início isso tá!
+    r = None
 
-    c, self.t = backtrack(self.p, self.t);
+    # Para cada professor e disciplina
+    for npro, npro_d in self.p.items():
+      for ndis in npro_d['turmas & disc.']:
+
+        # Testar opções
+        tmp = backtrack(self.h, 0, 0, npro, ndis.split('_')[1], ndis.split('_')[0])
+
+        # Obter a ótima
+        if not r or r[0] > tmp[0]: r = tmp
 
     ...
     # Dados de debug
-    print(c, '\n')
-    for t, h_t in self.h.items():
+    print(r[0], '\n')
+    for t, h_t in r[1].items():
         print(f'\n{t}')
         print(h_t)
 
