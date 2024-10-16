@@ -55,8 +55,8 @@ class gerhor:
 
     # Inicialização das listas dos professores + Input dos dados dos professores
     for n_p in n_ps:
-        self.p[n_p] = { 'turmas & disc.' : list[tuple[str, str]](),
-                        'horas semanais' : float }
+        self.p[n_p] = { 'turmas & disc.' : [],
+                        'horas semanais' : 0.0 }
 
         print(f'\nResponda sobre o(a) professor(a) {n_p}:')
         
@@ -100,7 +100,7 @@ class gerhor:
       if h[tur][dia][per]: return False
 
       # Verificar se o professor já excedeu a quantidade de períodos semanais
-      if ch_p(pro) >= h_s: return False
+      if ch_p(pro, h) >= h_s: return False
       
       # Verificar se o professor dá aula em outra turma
       for t, h_t in h.items():
@@ -132,14 +132,14 @@ class gerhor:
       for p_i in self.p:
 
         # Verificar quantos professores tem mais ou menos trabalho que o necessário
-        if ch_p(p_i, self.p, t) != self.p['horas semanais']: c += 1
+        if ch_p(p_i, self.p, t) != self.p[p_i]['horas semanais']: c += 1
 
-        for dis in map(lambda tnd : tnd[1], self.p[p_i]['turmas & disc.'].split('_')):
+        for tur, dis in self.p[p_i]['turmas & disc.']:
 
           tmp = False
 
           # Para cada turma
-          for t_i in t.values():
+          for t_i_n, t_i in t.items():
             # Para cada dia e período
             for d in t_i:
               for dp in d:
@@ -148,7 +148,7 @@ class gerhor:
                 if not dp: c += 2
 
                 # Verificar se todas as matérias estão sendo dadas
-                if not tmp and dp.split('_') == dis: tmp = True
+                if dp and not tmp and dp.split('_')[1] == dis and dp.split('_')[0] == p_i and t_i_n == tur: tmp = True
 
           if not tmp: c += 2
 
@@ -161,7 +161,7 @@ class gerhor:
       """
 
       # Se todos os horários estiverem alocados, retornar contagem de erros e os horários
-      if not vvag(t) or not (0 <= dia < 5) or not (0 <= per < len(t.values()[0][0])): return verrors(t), t
+      if not vvag(t) or not (0 <= dia < 5) or not (0 <= per < len(list(t.values())[0][0])): return verrors(t), t
 
       r : tuple[int, dict[str, list[list[str]]]]
 
@@ -177,8 +177,8 @@ class gerhor:
         for ndis in npro_d['turmas & disc.']:
 
           # Testar outras opções
-          tmp = backtrack(t, dia+1, per, npro, ndis.split('_')[1], ndis.split('_')[0])
-          tmp2 = backtrack(t, dia, per+1, npro, ndis.split('_')[1], ndis.split('_')[0])
+          tmp = backtrack(t, dia+1, per, npro, ndis[1], ndis[0])
+          tmp2 = backtrack(t, dia, per+1, npro, ndis[1], ndis[0])
 
           # Obter a ótima
           if tmp[0] > tmp2[0]: tmp = tmp2
@@ -186,15 +186,14 @@ class gerhor:
 
       return r
 
-    r : tuple[int, dict[str,
-    list[list[str]]]]
+    r = None
 
     # Para cada professor e disciplina
     for npro, npro_d in self.p.items():
       for ndis in npro_d['turmas & disc.']:
 
         # Testar opções
-        tmp = backtrack(self.h, 0, 0, npro, ndis.split('_')[1], ndis.split('_')[0])
+        tmp = backtrack(self.h, 0, 0, npro, ndis[1], ndis[0])
 
         # Obter a ótima
         if not r or r[0] > tmp[0]: r = tmp
