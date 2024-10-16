@@ -5,7 +5,7 @@ Sumário Estendido
 -----------------
 Versão Alpha - Ainda nas implementações iniciais!
 
-Inclui: Sistema básico de input dos dados e organização dos mesmos, ainda sem o algoritmo principal.
+Inclui: Classe para o input dos dados e geração de horários
 """
 
 # Ao fazer o ``git clone``, faça ``git pull`` antes de fazer qualquer coisa para obter as alterações da núvem!
@@ -186,7 +186,8 @@ class gerhor:
 
       return r
 
-    r = None
+    r : tuple[int, dict[str,
+    list[list[str]]]]
 
     # Para cada professor e disciplina
     for npro, npro_d in self.p.items():
@@ -198,12 +199,13 @@ class gerhor:
         # Obter a ótima
         if not r or r[0] > tmp[0]: r = tmp
 
-    ...
+    self.h = r[1]
+
     # Dados de debug
     print(r[0], '\n')
-    for t, h_t in r[1].items():
-        print(f'\n{t}')
-        print(h_t)
+    for t, h_t in self.h.items():
+      print(f'\n{t}')
+      print(h_t)
 
   def main(self) -> None:
     """
@@ -212,6 +214,7 @@ class gerhor:
 
     # Obtendo os dados da entrada padrão
     self.get_input()
+    # Alocando os dados
     self.allocate_h()
     ...
     
