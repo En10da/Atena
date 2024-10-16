@@ -132,7 +132,7 @@ class gerhor:
       for p_i in self.p:
 
         # Verificar quantos professores tem mais ou menos trabalho que o necessário
-        if ch_p(p_i, self.p, t) != self.p[p_i]['horas semanais']: c += 1
+        if ch_p(p_i, t) != self.p[p_i]['horas semanais']: c += 1
 
         for tur, dis in self.p[p_i]['turmas & disc.']:
 
