@@ -215,6 +215,8 @@ class gerhor:
     self.get_input()
     # Alocando os dados
     self.allocate_h()
+
+    # OBS: O Debug está pelo código todo
     ...
     
 
