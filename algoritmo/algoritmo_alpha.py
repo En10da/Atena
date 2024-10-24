@@ -21,7 +21,7 @@ Inclui: Classe para o input dos dados e geração de horários
 # Lembre-se de que este repositório é público e os surtos destes comentários também.
 # Lembrar de usar o git direito e combinar com os colaboradores para não haver conflitos no meio dos pushs.
 
-import numpy as np
+import random
 
 class gerhor:
   """
@@ -132,7 +132,7 @@ class gerhor:
       for p_i in self.p:
 
         # Verificar quantos professores tem mais ou menos trabalho que o necessário
-        if ch_p(p_i, t) != self.p[p_i]['horas semanais']: c += 1
+        if ch_p(p_i, t) != self.p[p_i]['horas semanais']: c += 5
 
         for tur, dis in self.p[p_i]['turmas & disc.']:
 
@@ -145,12 +145,12 @@ class gerhor:
               for dp in d:
 
                 # Verificar quantas turmas tem aulas vagas
-                if not dp: c += 2
+                if not dp: c += 3
 
                 # Verificar se todas as matérias estão sendo dadas
                 if dp and not tmp and dp.split('_')[1] == dis and dp.split('_')[0] == p_i and t_i_n == tur: tmp = True
 
-          if not tmp: c += 2
+          if not tmp: c += 20
 
       return c
 
@@ -173,8 +173,16 @@ class gerhor:
       r = verrors(t), t
 
       # Para cada professor e disciplina
-      for npro, npro_d in self.p.items():
-        for ndis in npro_d['turmas & disc.']:
+
+      l1 = list(self.p.items())
+      random.shuffle(l1)
+
+      for npro, npro_d in l1:
+
+        l2 = list(npro_d['turmas & disc.'])
+        random.shuffle(l2)
+
+        for ndis in l2:
 
           # Testar outras opções
           tmp = backtrack(t, dia+1, per, npro, ndis[1], ndis[0])
@@ -182,21 +190,32 @@ class gerhor:
 
           # Obter a ótima
           if tmp[0] > tmp2[0]: tmp = tmp2
+          elif tmp[0] == tmp2[0] and random.randint(0, 1) == 1: tmp = tmp2
           if r[0] > tmp[0]: r = tmp
+          elif r[0] == tmp[0] and random.randint(0, 1) == 1: r = tmp
 
       return r
 
     r = None
 
     # Para cada professor e disciplina
-    for npro, npro_d in self.p.items():
-      for ndis in npro_d['turmas & disc.']:
+
+    l1 = list(self.p.items())
+    random.shuffle(l1)
+
+    for npro, npro_d in l1:
+
+      l2 = list(npro_d['turmas & disc.'])
+      random.shuffle(l2)
+
+      for ndis in l2:
 
         # Testar opções
         tmp = backtrack(self.h, 0, 0, npro, ndis[1], ndis[0])
 
         # Obter a ótima
         if not r or r[0] > tmp[0]: r = tmp
+        elif r[0] == tmp[0] and random.randint(0, 1) == 1: r = tmp
 
     self.h = r[1]
 
