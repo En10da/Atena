@@ -3,7 +3,7 @@ Algoritmo do gerador de horários do Projeto Atena
 
 Sumário Estendido
 -----------------
-Versão Alpha - Ainda nas implementações iniciais!
+Versão Beta - Ainda com erros e bugs significativos!
 
 Inclui: Classe para o input dos dados e geração de horários
 """
@@ -35,6 +35,7 @@ class gerhor:
 
     self.p : dict = dict()
     self.h : dict = dict()
+    self.errc : int = int()
 
   def get_input(self) -> None:
     """
@@ -56,7 +57,7 @@ class gerhor:
     # Inicialização das listas dos professores + Input dos dados dos professores
     for n_p in n_ps:
         self.p[n_p] = { 'turmas & disc.' : [],
-                        'horas semanais' : 0.0 }
+                        'horas semanais' : 0 }
 
         print(f'\nResponda sobre o(a) professor(a) {n_p}:')
         
@@ -64,11 +65,26 @@ class gerhor:
         self.p[n_p]['turmas & disc.'] = list(map( lambda x : tuple(x.split('_')), input('Turmas & disciplinas (separadas por um _. Ex.: 1ºA_Química 3ºC_Física) que leciona (Use espaços para separar as turmas & disciplinas, não vírgulas):\n').strip().split() ))
 
         # Input da quantidade de períodos de trabalho        
-        self.p[n_p]['horas semanais'] = float(input('Quantidade de períodos de trabalho por semana:\n').strip())
+        self.p[n_p]['horas semanais'] = int(input('Quantidade de períodos de trabalho por semana:\n').strip())
 
-    ...
-    # Dados de debug
-    print(self.p)
+  def input_d(self, num_per_diar : int, nome_turmas : list[str], nome_profs : list[str], tur_e_dis_p : dict[str, list[tuple[str, str]]], per_psem_profs : dict[str, int]) -> None:
+    """
+    Fornecer input
+    """
+
+    # Inicialização da lista dos horários
+    for n_t in nome_turmas: self.h[n_t] = [[list() for _ in range(num_per_diar)] for _ in range(5)]
+
+    # Inicialização da lista dos professores e seus dados
+    for n_p in nome_profs:
+      self.p[n_p] = { 'turmas & disc.' : [],
+                        'horas semanais' : 0 }
+
+      # Inicialização dos nomes das turmas e disciplinas
+      self.p[n_p]['turmas & disc'] = tur_e_dis_p[n_p]
+
+      # Inicialização da quantidade de períodos de trabalho
+      self.p[n_p]['horas semanais'] = per_psem_profs[n_p]
 
   def allocate_h(self) -> None:
     """
@@ -154,8 +170,7 @@ class gerhor:
 
       return c
 
-    def backtrack(t : dict, dia : int, per : int, pro : str, dis : str, tur : str) -> tuple[int, dict[str,
-    list[list[str]]]]:
+    def backtrack(t : dict, dia : int, per : int, pro : str, dis : str, tur : str) -> tuple[int, dict[str, list[list[str]]]]:
       """
       Backtracking para o algoritmo funcionar
       """
@@ -218,26 +233,42 @@ class gerhor:
         elif r[0] == tmp[0] and random.randint(0, 1) == 1: r = tmp
 
     self.h = r[1]
+    self.errc = r[0]
 
-    # Dados de debug
-    print(r[0], '\n')
+  def get_h(self) -> dict[str, list[list[str]]]:
+    """
+    Obter os horários
+    """
+
+    return self.h
+
+  def print_debug(self) -> None:
+    """
+    Mostrar os dados
+    """
+
+    # Mostrar dados dos professores
+    print('\n', self.p, '\n')
+
+    # Mostrar horários
+    print(self.errc, '\n')
     for t, h_t in self.h.items():
       print(f'\n{t}')
       print(h_t)
 
-  def main(self) -> None:
-    """
-    Função principal
-    """
-
-    # Obtendo os dados da entrada padrão
-    self.get_input()
-    # Alocando os dados
-    self.allocate_h()
-
-    # OBS: O Debug está pelo código todo
-    ...
-    
-
+# Teste da classe
 if __name__ == '__main__':
-  gerhor().main()
+
+  # Iniciando a classe
+  GH = gerhor()
+
+  # Obtendo input da entrada padrão
+  GH.get_input()
+
+  # Gerando os horários
+  GH.allocate_h()
+
+  # Mostrando dados
+  GH.print_debug()
+
+
